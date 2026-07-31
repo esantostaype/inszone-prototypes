@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Inszone · Internal Pages — Prototypes & Feedback</title>
+  <title>Inszone | Prototypes & Feedback</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -83,7 +83,7 @@
         </svg>
       </div>
       <div class="brand-text">
-        <h1>Internal Pages</h1>
+        <h1>Website Redesign</h1>
         <p>Prototypes for review · Feedback &amp; new pages</p>
       </div>
     </header>
@@ -103,6 +103,9 @@
       </button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="panel-new" id="tab-new">
         <span class="ico-slot" data-icon="add-01"></span> New Internal Pages <span class="count" id="count-new"></span>
+      </button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="panel-finalized" id="tab-finalized">
+        <span class="ico-slot" data-icon="check"></span> Finalized <span class="count" id="count-finalized"></span>
       </button>
     </div>
 
@@ -144,6 +147,25 @@
       </div>
     </section>
 
+    <section class="panel" id="panel-finalized" role="tabpanel" aria-labelledby="tab-finalized">
+      <div class="table-card">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th class="col-num">#</th>
+                <th class="col-name">Page name</th>
+                <th class="col-links">Prototypes</th>
+                <th class="col-variants">Alternate versions</th>
+                <th class="col-notes">Comments</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-finalized"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
     <footer class="page-foot">
       Inszone Insurance · Figma prototypes — click any link to open each version.
     </footer>
@@ -152,15 +174,6 @@
   <script>
     /* ─── Datos ──────────────────────────────────────────────────────────── */
     const feedbackPages = [
-      {
-        name: "Quote Form",
-        links: [
-          { label: "Desktop", url: "https://www.figma.com/proto/YZpbdZ5BFtrTsjHxauWKpy/INS---Website-Redesign---Quote-Form?node-id=11111-1021&p=f&t=vGOnBTK39bQbZpjL-0&scaling=scale-down-width&content-scaling=fixed&page-id=9163%3A3715&hotspot-hints=0&hide-ui=1" },
-          { label: "Mobile", type: "mobile", url: "https://www.figma.com/proto/YZpbdZ5BFtrTsjHxauWKpy/INS---Website-Redesign---Quote-Form?node-id=11202-3881&t=vGOnBTK39bQbZpjL-0&scaling=scale-down&content-scaling=fixed&page-id=9291%3A5561&hotspot-hints=0&hide-ui=1" },
-          { label: "Test Vertical Layout", type: "extra", url: "https://www.figma.com/proto/YZpbdZ5BFtrTsjHxauWKpy/INS---Website-Redesign---Quote-Form?node-id=11414-5012&t=vGOnBTK39bQbZpjL-0&scaling=scale-down&content-scaling=fixed&page-id=9291%3A5561&hotspot-hints=0&hide-ui=1" }
-        ],
-        note: "In my view, too much space is wasted on the sides — a horizontal layout works better."
-      },
       {
         name: "Blog",
         links: [
@@ -305,6 +318,26 @@
       }
     ];
 
+    /* ─── Finalized (approved) pages ─── DUMMY LINKS — replace with real ones ── */
+    const finalizedPages = [
+      {
+        name: "Home Page",
+        links: [
+          { label: "Desktop", url: "https://www.figma.com/proto/7MlPvvE7I7fXvHrZcD4aOK/INS---Website-Redesign-Final?node-id=9163-3772&t=nLs7lRjgSwk6Hi96-0&scaling=scale-down-width&content-scaling=fixed&page-id=9163%3A3715&starting-point-node-id=9163%3A3772&hotspot-hints=0&hide-ui=1" },
+          { label: "Mobile", type: "mobile", url: "https://www.figma.com/proto/7MlPvvE7I7fXvHrZcD4aOK/INS---Website-Redesign-Final?node-id=9291-5562&t=nLs7lRjgSwk6Hi96-0&scaling=scale-down&content-scaling=fixed&page-id=9291%3A5561&starting-point-node-id=9291%3A5562&hotspot-hints=0&hide-ui=1" }
+        ],
+        note: ""
+      },
+      {
+        name: "Quote Page",
+        links: [
+          { label: "Desktop", url: "https://www.figma.com/proto/YZpbdZ5BFtrTsjHxauWKpy/INS---Website-Redesign---Quote-Form?node-id=11583-5110&t=E9wktsJiEAxZBG5X-0&scaling=scale-down-width&content-scaling=fixed&page-id=11583%3A5100&hotspot-hints=0&hide-ui=1" },
+          { label: "Mobile", type: "mobile", url: "https://www.figma.com/proto/YZpbdZ5BFtrTsjHxauWKpy/INS---Website-Redesign---Quote-Form?node-id=11202-3881&t=E9wktsJiEAxZBG5X-0&scaling=scale-down&content-scaling=fixed&page-id=9291%3A5561&hotspot-hints=0&hide-ui=1" }
+        ],
+        note: ""
+      }
+    ];
+
     /* ─── Icons ──────────────────────────────────────────────────────────────
        HugeIcons (stroke-rounded) as inline SVG on a 24×24 canvas. Stroke width
        is driven by the CSS var --icon-stroke (see styles.css) so it can be
@@ -333,6 +366,10 @@
       ],
       "arrow-up-right-01": [
         "M9 6.65032C9 6.65032 15.9383 6.10759 16.9154 7.08463C17.8924 8.06167 17.3496 15 17.3496 15M16.5 7.5L6.5 17.5"
+      ],
+      "check": [
+        "M5 14L8.5 17.5L19 6.5",
+        "M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22Z"
       ]
     };
 
@@ -382,8 +419,10 @@
 
     renderRows(feedbackPages, "tbody-feedback");
     renderRows(newPages, "tbody-new");
+    renderRows(finalizedPages, "tbody-finalized");
     document.getElementById("count-feedback").textContent = feedbackPages.length;
     document.getElementById("count-new").textContent = newPages.length;
+    document.getElementById("count-finalized").textContent = finalizedPages.length;
 
     /* Fill static icon slots (callout + tabs). */
     document.querySelectorAll("[data-icon]").forEach(el => { el.innerHTML = icon(el.dataset.icon); });
